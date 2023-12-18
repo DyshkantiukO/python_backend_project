@@ -1,7 +1,7 @@
 PROPAGATE_EXCEPTIONS = True
 FLASK_DEBUG = True
 
-SQLALCHEMY_DATABASE_URI = "postgres://admin:yZqV5iPhvzOI9gPEVWVOfpV2zGm0DMXJ@dpg-clvkga6d3nmc738e26ag-a/flaskdb_7uea"
+SQLALCHEMY_DATABASE_URI = "postgresql://admin:yZqV5iPhvzOI9gPEVWVOfpV2zGm0DMXJ@dpg-clvkga6d3nmc738e26ag-a/flaskdb_7uea"
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 API_TITLE = "Finance REST API"
