@@ -11,8 +11,8 @@ services:
    ports:
      - "5000:8080"
  db:
-  image: postgres:latest
+  image: postgres:15
   environment:
-    POSTGRES_DB: "flaskdb"
-    POSTGRES_USER: "postgres"
-    POSTGRES_PASSWORD: "root"
+    POSTGRES_DB: "flaskdb_7uea"
+    POSTGRES_USER: "admin"
+    POSTGRES_PASSWORD: "yZqV5iPhvzOI9gPEVWVOfpV2zGm0DMXJ"
