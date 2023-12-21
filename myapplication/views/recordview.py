@@ -48,8 +48,9 @@ def create_record():
 @app.delete('/record')
 def delete_record():
     record_id = request.args.get('recordID')
-    deleted_record = delete(models.Record, record_id)
-    if deleted_record:
-        return jsonify(deleted_record)
-    else:
-        return "AttributeError, 404"
+    if record_id.isdigit():
+        deleted_record = delete(models.Record, record_id)
+        if deleted_record:
+            return jsonify(deleted_record)
+        else:
+            return "sqlalchemy.exc.DataError"
