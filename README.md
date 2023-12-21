@@ -1,6 +1,10 @@
 # PYTHON BACKEND PROJECT
 ### Instructions for running the project locally
 
+Дишкантюк Олександр ІО-12
+Варіант:
+6 % 3 = 0
+
 **Step 1:** 
 Clone the repository locally
 
