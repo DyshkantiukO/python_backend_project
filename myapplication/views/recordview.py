@@ -53,4 +53,6 @@ def delete_record():
         if deleted_record:
             return jsonify(deleted_record)
         else:
-            return "sqlalchemy.exc.DataError"
+            return "AttributeError, 404"
+    else:
+        return "sqlalchemy.exc.DataError"
