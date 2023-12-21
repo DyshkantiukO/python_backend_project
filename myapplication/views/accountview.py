@@ -9,4 +9,4 @@ def get_account():
         account = db.session.query(models.Account).filter(models.Account.user_id == user_id).first()
         return jsonify({"user_id": account.user_id, "money": account.money})
     except AttributeError:
-        return "AttributeError, 404"
+        return jsonify({"error": "AttributeError", "status_code": 404})

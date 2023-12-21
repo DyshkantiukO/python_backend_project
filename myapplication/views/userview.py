@@ -17,7 +17,7 @@ def get_user():
         user = db.session.query(models.User).filter(models.User.id == user_id).first()
         return jsonify({"id": user.id, "name": user.name})
     except AttributeError:
-        return "AttributeError, 404"
+        return jsonify({"error": "AttributeError", "status_code": 404})
 
 
 @app.post('/user')
@@ -25,15 +25,16 @@ def add_user():
     user_data = request.get_json()
     try:
         schemas.UserSchema().load({"name": user_data["name"]})
-        if db.session.query(models.User).filter(models.User.name == user_data["name"]).first() is None:
-            user = models.User(user_data["name"])
-            add(user)
-            schemas.AccountSchema().load({"user_id": user.id, "money": user_data["money"]})
-            account = models.Account(user.id, user_data["money"])
-            add(account)
-            return jsonify({"id": user.id, "name": user.name, "money": account.money})
-        else:
-            return "UserExist, 404"
+        existing_user = db.session.query(models.User).filter(models.User.name == user_data["name"]).first()
+        if existing_user is not None:
+            return jsonify({"error": "User already exists", "status_code": 404})
+        user = models.User(user_data["name"])
+        add(user)
+        account_data = {"user_id": user.id, "money": user_data["money"]}
+        schemas.AccountSchema().load(account_data)
+        account = models.Account(user.id, user_data["money"])
+        add(account)
+        return jsonify({"id": user.id, "name": user.name, "money": account.money})
     except ValidationError as error:
         return error.messages
 
@@ -45,4 +46,4 @@ def delete_user():
     if deleted_user:
         return jsonify(deleted_user)
     else:
-        return "AttributeError, 404"
+        return jsonify({"error": "AttributeError", "status_code": 404})

@@ -18,7 +18,7 @@ def get_category():
         category = db.session.query(models.Category).filter(models.Category.id == category_id).first()
         return jsonify({"id": category.id, "name": category.name})
     except (ValidationError, AttributeError):
-        return "AttributeError, 404"
+        return jsonify({"error": "AttributeError", "status_code": 404})
 
 
 @app.post('/category')
@@ -26,12 +26,13 @@ def create_category():
     category_data = request.get_json()
     try:
         schemas.CategorySchema().load({"name": category_data["name"]})
-        if db.session.query(models.Category).filter(models.Category.name == category_data["name"]).first() is None:
-            category = models.Category(category_data["name"])
-            add(category)
-            return jsonify({"id": category.id, "name": category.name})
-        else:
-            return "CategoryExist, 404"
+        existing_category = db.session.query(models.Category).filter(
+            models.Category.name == category_data["name"]).first()
+        if existing_category is not None:
+            return jsonify({"error": "Category already exists", "status_code": 404})
+        category = models.Category(category_data["name"])
+        add(category)
+        return jsonify({"id": category.id, "name": category.name})
     except ValidationError as error:
         return error.messages
 
@@ -43,4 +44,4 @@ def delete_category():
     if deleted_category:
         return jsonify(deleted_category)
     else:
-        return "AttributeError, 404"
+        return jsonify({"error": "AttributeError", "status_code": 404})
