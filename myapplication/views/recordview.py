@@ -2,11 +2,13 @@ from flask import request, jsonify
 from marshmallow import ValidationError
 from .. import app, db, schemas, models
 from ..utils import add, update, delete
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 @app.get('/record')
-def manage_record():
-    user_id = request.args.get('userID')
+@jwt_required()
+def get_record():
+    user_id = get_jwt_identity()
     category_id = request.args.get('categoryID')
     try:
         schemas.RecordSchema().load({"user_id": user_id, "category_id": category_id, "amount_of_expenditure": 1.0})
@@ -19,8 +21,9 @@ def manage_record():
 
 
 @app.post('/record')
-def create_record():
-    user_id = request.args.get('userID')
+@jwt_required()
+def add_record():
+    user_id = get_jwt_identity()
     category_id = request.args.get('categoryID')
     amount_of_expenditure = request.args.get('amount')
     try:
@@ -45,6 +48,7 @@ def create_record():
 
 
 @app.delete('/record')
+@jwt_required()
 def delete_record():
     record_id = request.args.get('recordID')
     if record_id.isdigit():

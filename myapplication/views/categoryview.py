@@ -2,15 +2,18 @@ from flask import request, jsonify
 from marshmallow import ValidationError
 from .. import app, db, schemas, models
 from ..utils import add, delete
+from flask_jwt_extended import jwt_required
 
 
 @app.get('/categories')
+@jwt_required()
 def get_categories():
     categories = [{"id": category.id, "name": category.name} for category in db.session.query(models.Category).all()]
     return jsonify(categories)
 
 
 @app.get('/category')
+@jwt_required()
 def get_category():
     category_id = request.args.get('categoryID')
     try:
@@ -22,7 +25,8 @@ def get_category():
 
 
 @app.post('/category')
-def create_category():
+@jwt_required()
+def add_category():
     category_data = request.get_json()
     try:
         schemas.CategorySchema().load({"name": category_data["name"]})
@@ -38,6 +42,7 @@ def create_category():
 
 
 @app.delete('/category')
+@jwt_required()
 def delete_category():
     category_id = request.args.get('categoryID')
     deleted_category = delete(models.Category, category_id)
