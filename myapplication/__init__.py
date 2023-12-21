@@ -35,6 +35,7 @@ db = SQLAlchemy(app)
 api = Api(app)
 jwt = JWTManager(app)
 migrate = Migrate(app, db)
+create_tables()
 
 import myapplication.views
 import myapplication.models
