@@ -13,6 +13,6 @@ services:
  db:
   image: postgres:15
   environment:
-    POSTGRES_DB: "flaskdb_7uea"
-    POSTGRES_USER: "admin"
-    POSTGRES_PASSWORD: "yZqV5iPhvzOI9gPEVWVOfpV2zGm0DMXJ"
+    POSTGRES_DB: "flaskdb_4mpn"
+    POSTGRES_USER: "flaskdb_4mpn_user"
+    POSTGRES_PASSWORD: "HlVkbPUQITpGwwuy3cqY8FAPZh7yHfAm"
